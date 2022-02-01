@@ -1,45 +1,81 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
+export const createMarvelCharacters = /* GraphQL */ `
+  mutation CreateMarvelCharacters(
+    $input: CreateMarvelCharactersInput!
+    $condition: ModelMarvelCharactersConditionInput
   ) {
-    createTodo(input: $input, condition: $condition) {
+    createMarvelCharacters(input: $input, condition: $condition) {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $input: UpdateTodoInput!
-    $condition: ModelTodoConditionInput
+export const updateMarvelCharacters = /* GraphQL */ `
+  mutation UpdateMarvelCharacters(
+    $input: UpdateMarvelCharactersInput!
+    $condition: ModelMarvelCharactersConditionInput
   ) {
-    updateTodo(input: $input, condition: $condition) {
+    updateMarvelCharacters(input: $input, condition: $condition) {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
+export const deleteMarvelCharacters = /* GraphQL */ `
+  mutation DeleteMarvelCharacters(
+    $input: DeleteMarvelCharactersInput!
+    $condition: ModelMarvelCharactersConditionInput
   ) {
-    deleteTodo(input: $input, condition: $condition) {
+    deleteMarvelCharacters(input: $input, condition: $condition) {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

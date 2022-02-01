@@ -1,36 +1,72 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo {
-    onCreateTodo {
+export const onCreateMarvelCharacters = /* GraphQL */ `
+  subscription OnCreateMarvelCharacters {
+    onCreateMarvelCharacters {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo {
-    onUpdateTodo {
+export const onUpdateMarvelCharacters = /* GraphQL */ `
+  subscription OnUpdateMarvelCharacters {
+    onUpdateMarvelCharacters {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
-export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo {
-    onDeleteTodo {
+export const onDeleteMarvelCharacters = /* GraphQL */ `
+  subscription OnDeleteMarvelCharacters {
+    onDeleteMarvelCharacters {
       id
-      name
+      comics
       description
+      events
+      charID
+      modified
+      name
+      resourceURI
+      series
+      stories
+      thumbnail
+      urls
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;

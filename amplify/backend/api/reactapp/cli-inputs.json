@@ -3,12 +3,21 @@
   "serviceConfiguration": {
     "apiName": "reactapp",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/mnt/c/Users/tanne/school/nextjs-aws/amplify/backend/api/reactapp/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-37169656-19e2-43e0-881b-57f3a24a661c/amplify/backend/api/reactapp/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 120,
-      "apiKeyExpirationDate": "2022-06-01T01:58:57.820Z",
-      "keyDescription": "GraphQL API key"
+      "keyDescription": "api key description",
+      "expirationTime": 30
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AWS_IAM"
+      }
+    ],
+    "conflictResolution": {
+      "defaultResolutionStrategy": {
+        "type": "AUTOMERGE"
+      }
     }
   }
 }
