@@ -7,8 +7,7 @@ import { listMarvelCharacters } from '../../graphql/queries'
 
 const Favorites = (props) => {
     const router = useRouter()
-    const { favoriteCharacters, almostFav } = props
-    console.log(almostFav)
+    const { favoriteCharacters } = props
 
     return (
 
@@ -65,8 +64,7 @@ export async function getStaticProps(){
 
     return {
         props: {
-            favoriteCharacters: savedCharacters,
-            almostFav: savedCharacters
+            favoriteCharacters: savedCharacters
         }
     }
 }

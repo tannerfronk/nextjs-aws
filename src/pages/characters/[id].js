@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Box, Button, Card, CardMedia, CardHeader, Divider, Typography, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { API } from 'aws-amplify'
-import { listMarvelCharacters } from '../../graphql/queries';
+import { listMarvelCharacters, getMarvelCharacters } from '../../graphql/queries';
 
 const CharacterDetails = (props) => {
     const { character } = props
@@ -173,7 +173,7 @@ export async function getStaticProps(context){
 }
 
 export async function getStaticPaths(){
-    const response = await API.graphql({ query: listMarvelCharacters, authMode: 'API_KEY' })
+    const response = await API.graphql({ query: listMarvelCharacters })
     let characters = response.data.listMarvelCharacters.items
     characters.forEach((char) => {
         char.comics = JSON.parse(char.comics)
@@ -184,7 +184,7 @@ export async function getStaticPaths(){
         char.urls = JSON.parse(char.urls)
     })
 
-    const paths = characters.map(character => ({ params: { id: character.charID} }))
+    const paths = characters.map(character => ({ params: { id: character.id} }))
 
     return {
         paths: paths,
