@@ -57,7 +57,7 @@ const CharacterCard = (props) => {
     }
 
     const handleInfoClick = () => {
-        router.push(`/details/${page}/${character.id}`)
+        router.push(`/${page}/${character.charID}`)
     }
 
     // React.useEffect(() => {
