@@ -41,7 +41,7 @@ const CharactersPage = (props) => {
     )
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(){
     const characterData = await getMarvelCharacters()
     console.log(characterData.data.results)
     return {

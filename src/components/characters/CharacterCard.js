@@ -11,11 +11,11 @@ import MenuBookIcon from '@mui/icons-material/MenuBook'
 import Grow from '@mui/material/Grow';
 import { useRouter } from 'next/router'
 import { createMarvelCharacters } from '../../graphql/mutations'
-import { listMarvelCharacters } from '../../graphql/queries'
 
 const CharacterCard = (props) => {
     const [ favorite, setFavorite ] = React.useState(false)
     const { character, page } = props
+    const router = useRouter()
     // const { favorites, setAsFavorite } = useMarvelContext()
     let cardTitle = ''
     let width = '200'
@@ -49,19 +49,6 @@ const CharacterCard = (props) => {
                 variables: { input: newCharacterToSave },
                 authMode: 'API_KEY'
             })
-
-            const savedCharacters = await API.graphql({ query: listMarvelCharacters})
-            savedCharacters = savedCharacters.data.listMarvelCharacters.items
-            savedCharacters.forEach((char) => {
-                char.comics = JSON.parse(char.comics)
-                char.events = JSON.parse(char.events)
-                char.series = JSON.parse(char.series)
-                char.stories = JSON.parse(char.stories)
-                char.thumbnail = JSON.parse(char.thumbnail)
-                char.urls = JSON.parse(char.urls)
-            })
-            
-            console.log(savedCharacters)
             console.log('created new character entry')
             console.log(response)
         } catch(e){
@@ -70,7 +57,7 @@ const CharacterCard = (props) => {
     }
 
     const handleInfoClick = () => {
-        useRouter.push(`/details/${page}/${character.id}`)
+        router.push(`/details/${page}/${character.id}`)
     }
 
     // React.useEffect(() => {
