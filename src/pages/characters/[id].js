@@ -1,11 +1,12 @@
 import * as React from 'react'
 import { Box, Button, Card, CardMedia, CardHeader, Divider, Typography, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { API, withSSRContext } from 'aws-amplify'
-import { getMarvelCharacters } from '../../graphql/queries';
 import { getAllCharactersSSR } from '../../../utils/characterQueries';
+import { getMarvelCharacterByID } from '../../../utils/marvel';
+import { useRouter } from 'next/router';
 
 const CharacterDetails = (props) => {
+    const router = useRouter()
     const { character } = props
     console.log(character)
 
@@ -38,8 +39,8 @@ const CharacterDetails = (props) => {
                     borderColor: 'black' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 
-                        <CardHeader title={(type === 'characters') ? "Character Details" : "Comic Details"} />
-                        <Button sx={{ color: 'white' }}><ArrowBackIcon /></Button>
+                        <CardHeader title="Character Details" />
+                        <Button sx={{ color: 'white' }} onClick={() => router.back()}><ArrowBackIcon /></Button>
                     </Box>
                     <Divider light='true' color="white" />
                     <Table>
@@ -162,12 +163,12 @@ const CharacterDetails = (props) => {
 }
 
 export async function getStaticProps(context){
-    const character = context.params.id
-    const { data } = await API.graphql({ query: getMarvelCharacters, variables: { charID: character } })
+    const characterID = context.params.id
+    let { data } = await getMarvelCharacterByID(characterID)
 
     return {
         props: {
-            character: data.getMarvelCharacters
+            character: data.results[0]
         }
     }
 }
@@ -176,11 +177,12 @@ export async function getStaticPaths(){
     try{
         const characters = await getAllCharactersSSR()
         const paths = characters.map(character => ({ 
-            params: { id: character.id}, 
+            params: { id: character.charID.toString() }, 
         }))
+        console.log(paths)
     
         return {
-            paths: paths,
+            paths,
             fallback: false
         }
     } catch(e){
