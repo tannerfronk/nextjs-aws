@@ -1,13 +1,14 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import CharacterCard from '../../components/characters/CharacterCard'
-import { API } from 'aws-amplify'
-import { useRouter } from 'next/router'
-import { listMarvelCharacters } from '../../graphql/queries'
+// import { useRouter } from 'next/router'
+import { getAllCharacters } from '../../../utils/characterQueries'
 
 const Favorites = (props) => {
-    const router = useRouter()
+    // const router = useRouter()
     const { favoriteCharacters } = props
+
+    console.log(favoriteCharacters)
 
     return (
 
@@ -29,7 +30,7 @@ const Favorites = (props) => {
                         <>
                             {card.name &&
                                 <CharacterCard
-                                    key={card.id}
+                                    key={card.charID}
                                     character={{ ...card }}
                                     page="characters"
                                     // addFavorites={setAsFavorite}
@@ -37,7 +38,7 @@ const Favorites = (props) => {
                             }
                             {card.title &&
                                 <CharacterCard
-                                    key={card.id}
+                                    key={card.charID}
                                     cardInfo={{ ...card }}
                                     page="comics"
                                     // addFavorites={setAsFavorite}
@@ -51,16 +52,7 @@ const Favorites = (props) => {
 }
 
 export async function getStaticProps(){
-    const response = await API.graphql({ query: listMarvelCharacters })
-    let savedCharacters = response.data.listMarvelCharacters.items
-    savedCharacters.forEach((char) => {
-        char.comics = JSON.parse(char.comics)
-        char.events = JSON.parse(char.events)
-        char.series = JSON.parse(char.series)
-        char.stories = JSON.parse(char.stories)
-        char.thumbnail = JSON.parse(char.thumbnail)
-        char.urls = JSON.parse(char.urls)
-    })
+    let savedCharacters = await getAllCharacters()
 
     return {
         props: {

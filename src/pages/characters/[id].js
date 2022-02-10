@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { Box, Button, Card, CardMedia, CardHeader, Divider, Typography, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { API } from 'aws-amplify'
-import { listMarvelCharacters, getMarvelCharacters } from '../../graphql/queries';
+import { API, withSSRContext } from 'aws-amplify'
+import { getMarvelCharacters } from '../../graphql/queries';
+import { getAllCharactersSSR } from '../../../utils/characterQueries';
 
 const CharacterDetails = (props) => {
     const { character } = props
@@ -162,33 +163,33 @@ const CharacterDetails = (props) => {
 
 export async function getStaticProps(context){
     const character = context.params.id
-
-    const response = await API.graphql({ query: getMarvelCharacters, variables: { charID: character }})
+    const { data } = await API.graphql({ query: getMarvelCharacters, variables: { charID: character } })
 
     return {
         props: {
-            character: response.data.getMarvelCharacters
+            character: data.getMarvelCharacters
         }
     }
 }
 
 export async function getStaticPaths(){
-    const response = await API.graphql({ query: listMarvelCharacters })
-    let characters = response.data.listMarvelCharacters.items
-    characters.forEach((char) => {
-        char.comics = JSON.parse(char.comics)
-        char.events = JSON.parse(char.events)
-        char.series = JSON.parse(char.series)
-        char.stories = JSON.parse(char.stories)
-        char.thumbnail = JSON.parse(char.thumbnail)
-        char.urls = JSON.parse(char.urls)
-    })
+    try{
+        const characters = await getAllCharactersSSR()
+        const paths = characters.map(character => ({ 
+            params: { id: character.id}, 
+        }))
+    
+        return {
+            paths: paths,
+            fallback: false
+        }
+    } catch(e){
+        console.log(e)
 
-    const paths = characters.map(character => ({ params: { id: character.id} }))
-
-    return {
-        paths: paths,
-        fallback: false
+        return {
+            paths: [],
+            fallback: false
+        }
     }
 }
 
