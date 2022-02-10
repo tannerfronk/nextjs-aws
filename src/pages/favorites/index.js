@@ -8,8 +8,6 @@ const Favorites = (props) => {
     // const router = useRouter()
     const { favoriteCharacters } = props
 
-    console.log(favoriteCharacters)
-
     return (
 
         <Box
