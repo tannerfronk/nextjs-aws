@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 const CharacterDetails = (props) => {
     const router = useRouter()
     const { character } = props
-    console.log(character)
 
     return (
         <Box sx={{
@@ -179,7 +178,6 @@ export async function getStaticPaths(){
         const paths = characters.map(character => ({ 
             params: { id: character.charID.toString() }, 
         }))
-        console.log(paths)
     
         return {
             paths,
