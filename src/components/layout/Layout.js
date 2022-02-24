@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import NavBar from "../nav/navbar";
+import NavBar from "../nav/NavBar";
 
 function Layout(props){
     return (

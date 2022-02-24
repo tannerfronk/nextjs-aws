@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Amplify, { API } from 'aws-amplify'
-import config from '../../aws-exports'
+import awsmobile from '../../aws-exports'
 import Box from '@mui/material/Box'
 import CharacterCard from '../../components/characters/CharacterCard'
 import { CircularProgress } from '@mui/material';
 import { getMarvelCharacters } from '../../../utils/marvel'
 
+const config = awsmobile
 
 Amplify.configure(config)
 
