@@ -4,12 +4,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { getAllCharactersSSR } from '../../../utils/characterQueries';
 import { getMarvelCharacterByID, getMarvelCharacters } from '../../../utils/marvel';
 import { useRouter } from 'next/router';
+import { DataStore } from 'aws-amplify';
+import { MarvelCharacters } from '../../models';
 
 const CharacterDetails = (props) => {
     const router = useRouter()
     const { character } = props
-
-    console.log(character)
 
     return (
         <Box sx={{
@@ -163,12 +163,34 @@ const CharacterDetails = (props) => {
     )
 }
 
-export async function getServerSideProps(context){
-    const characterData = await getMarvelCharacterByID(context.params.id)
-    console.log(characterData.data.results)
+export async function getStaticProps(context){
+    const characterID = context.params.id
+    let { data } = await getMarvelCharacterByID(characterID)
+
     return {
         props: {
-            character: characterData.data.results[0]
+            character: data.results[0]
+        }
+    }
+}
+
+export async function getStaticPaths(){
+    try{
+        const characters = await DataStore.query(MarvelCharacters)
+        const paths = characters.map(character => ({ 
+            params: { id: character.charID.toString() }, 
+        }))
+    
+        return {
+            paths,
+            fallback: false
+        }
+    } catch(e){
+        console.log(e)
+
+        return {
+            paths: [],
+            fallback: false
         }
     }
 }

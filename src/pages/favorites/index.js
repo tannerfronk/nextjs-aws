@@ -1,12 +1,28 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
+import { DataStore } from 'aws-amplify'
+import { MarvelCharacters } from '../../models'
 import CharacterCard from '../../components/characters/CharacterCard'
-// import { useRouter } from 'next/router'
-import { getAllCharacters } from '../../../utils/characterQueries'
+import useSWR from 'swr'
 
-const Favorites = (props) => {
-    // const router = useRouter()
-    const { favoriteCharacters } = props
+const Favorites = () => {
+    
+    const [favoriteCharacters, setFavoriteCharacters] = React.useState([])
+
+    const fetcher = async () => {
+        try {
+            let tempList = await DataStore.query(MarvelCharacters)
+            setFavoriteCharacters(tempList)
+        } catch (e) {
+            console.log("Unable to retrieve favorites", e)
+        }
+        return favoriteCharacters
+    }
+
+    const { data, error } = useSWR('/favorites', fetcher, {refreshInterval: 150})
+
+    if (error) return <div>Unable to load favorites</div>
+    if (!data) return <div>Loading...</div>
 
     return (
 
@@ -30,7 +46,8 @@ const Favorites = (props) => {
                                 <CharacterCard
                                     key={card.charID}
                                     character={{ ...card }}
-                                    page="characters"
+                                    page="favorites"
+                                    favoritesList={favoriteCharacters}
                                     // addFavorites={setAsFavorite}
                                 />
                             }
@@ -49,14 +66,14 @@ const Favorites = (props) => {
     )
 }
 
-export async function getStaticProps(){
-    let savedCharacters = await getAllCharacters()
+// export async function getStaticProps(){
+//     let savedCharacters = await getAllCharacters()
 
-    return {
-        props: {
-            favoriteCharacters: savedCharacters
-        }
-    }
-}
+//     return {
+//         props: {
+//             favoriteCharacters: savedCharacters
+//         }
+//     }
+// }
 
 export default Favorites

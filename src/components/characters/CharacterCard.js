@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { API } from 'aws-amplify'
+import { DataStore } from 'aws-amplify'
 import Card from '@mui/material/Card'
 import { IconButton, Typography } from '@mui/material'
 import { CardMedia } from '@mui/material'
@@ -10,17 +10,22 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import Grow from '@mui/material/Grow';
 import { useRouter } from 'next/router'
-import { createMarvelCharacters } from '../../graphql/mutations'
+import { MarvelCharacters } from '../../models'
 
 const CharacterCard = (props) => {
     const [ favorite, setFavorite ] = React.useState(false)
-    const { character, page } = props
+    const { character, page, favoritesList } = props
     const router = useRouter()
-    // const { favorites, setAsFavorite } = useMarvelContext()
     let cardTitle = ''
     let width = '200'
 
-    if (page === 'characters') {
+    React.useEffect(() => {
+        if(favoritesList && favoritesList.some(fav => fav.id === character.id)){
+            setFavorite(!favorite)
+        }
+    }, [])
+
+    if (page === 'characters' || page === 'favorites') {
         cardTitle = character.name
     } else if (page === 'comics') {
         cardTitle = character.title
@@ -33,7 +38,7 @@ const CharacterCard = (props) => {
             comics: JSON.stringify(character.comics),
             description: character.description,
             events: JSON.stringify(character.events),
-            charID: character.id,
+            charID: parseInt(character.id),
             modified: character.modified,
             name: character.name,
             resourceURI: character.resourceURI,
@@ -44,20 +49,25 @@ const CharacterCard = (props) => {
         }
 
         try{
-            const response = await API.graphql({
-                query: createMarvelCharacters,
-                variables: { input: newCharacterToSave },
-                authMode: 'API_KEY'
-            })
-            console.log('created new character entry')
-            console.log(response)
+            let favorites = await DataStore.query(MarvelCharacters)
+            // save or delete character
+            let exists = favorites.some(fav => fav.id === character.id)
+            if(exists) {
+                await DataStore.delete(MarvelCharacters, character.id)
+                console.log('removed character from favorites')
+            } else {
+                await DataStore.save(new MarvelCharacters(newCharacterToSave))
+                console.log('created new favorite character')
+            }
         } catch(e){
             console.log(e)
         }
     }
 
     const handleInfoClick = () => {
-        router.push(`/${page}/${character.charID}`)
+        let id = character.charID
+        if (!id) id = character.id
+        router.push(`/${page}/${id}`)
     }
 
     // React.useEffect(() => {
