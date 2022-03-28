@@ -2,7 +2,7 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import CharacterCard from '../../components/characters/CharacterCard'
 import { CircularProgress } from '@mui/material';
-import { getMarvelCharacters } from '../../../utils/marvel'
+// import { getMarvelCharacters } from '../../../utils/marvel'
 
 const CharactersPage = (props) => {
     const { characters } = props
@@ -37,11 +37,14 @@ const CharactersPage = (props) => {
 }
 
 export async function getServerSideProps(){
-    const characterData = await getMarvelCharacters()
-    console.log(characterData.data.results)
+    const dev = process.env.NODE_ENV !== 'production';
+    const env = dev ? 'http://localhost:3000' : 'https://main.d2gdmispgwqige.amplifyapp.com';
+    const res = fetch(`${env}/api/characters`)
+    .then(res => res.json())
+    const data = await res
     return {
         props: {
-            characters: characterData.data.results
+            characters: data.characters.data.results
         }
     }
 }
