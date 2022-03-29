@@ -12,5 +12,5 @@ export default async function handler(req, res) {
 
     let characters = await response.json()
 
-  res.status(200).json({ characters })
+    res.status(200).json({ characters })
 }
