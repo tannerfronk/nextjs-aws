@@ -10,9 +10,7 @@ const CharactersPage = () => {
 
 
     React.useEffect(() => {
-        const dev = process.env.NODE_ENV !== 'production';
-        const env = dev ? 'http://localhost:3000' : 'https://main.d2gdmispgwqige.amplifyapp.com';
-        const res = fetch(`${env}/api/characters`)
+        const res = fetch(`/api/characters`)
             .then(res => res.json())
             .then(data => {
                 setCharacters(data.characters.data.results)
