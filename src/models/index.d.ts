@@ -10,19 +10,19 @@ type MarvelCharactersMetaData = {
 
 export declare class MarvelCharacters {
   readonly id: string;
-  readonly comics?: string;
-  readonly description?: string;
-  readonly events?: string;
-  readonly charID?: number;
-  readonly modified?: string;
-  readonly name?: string;
-  readonly resourceURI?: string;
-  readonly series?: string;
-  readonly stories?: string;
-  readonly thumbnail?: string;
-  readonly urls?: string;
-  readonly createdAt?: string;
-  readonly updatedAt?: string;
+  readonly comics?: string | null;
+  readonly description?: string | null;
+  readonly events?: string | null;
+  readonly charID?: number | null;
+  readonly modified?: string | null;
+  readonly name?: string | null;
+  readonly resourceURI?: string | null;
+  readonly series?: string | null;
+  readonly stories?: string | null;
+  readonly thumbnail?: string | null;
+  readonly urls?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
   constructor(init: ModelInit<MarvelCharacters, MarvelCharactersMetaData>);
   static copyOf(source: MarvelCharacters, mutator: (draft: MutableModel<MarvelCharacters, MarvelCharactersMetaData>) => MutableModel<MarvelCharacters, MarvelCharactersMetaData> | void): MarvelCharacters;
 }

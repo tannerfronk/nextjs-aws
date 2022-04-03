@@ -13,27 +13,36 @@ import {
 } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu'
 import HomeIcon from '@mui/icons-material/Home'
-import LoginIcon from '@mui/icons-material/Login'
+// import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
-import CreateIcon from '@mui/icons-material/Create';
+// import CreateIcon from '@mui/icons-material/Create';
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import Link from 'next/link'
+import { DataStore } from 'aws-amplify'
 import { useRouter } from 'next/router'
 
 
-const NavBar = () => {
+const NavBar = (props) => {
     const [isOpen, setIsOpen] = React.useState(false)
     const router = useRouter()
+    const {user, signOut} = props
+
+    console.log(user)
 
     const handleNavChoice = (choice, shouldToggle) => {
         router.push(`/${choice}`)
         if (shouldToggle) toggleDrawer()
     }
+
+    const handleSignOut = () => {
+        DataStore.clear()
+        signOut()
+    }
+
     const drawerItemList = () => (
         <Box sx={{ width: 250 }} role="presentation">
-            {/* {identity.user && */}
             <List>
                 <ListItem button onClick={() => handleNavChoice('characters', true)}>
                     <ListItemIcon>
@@ -60,23 +69,6 @@ const NavBar = () => {
                     <ListItemText primary="Logout" />
                 </ListItem>
             </List>
-            {/* }
-            {!identity.user &&
-                <List>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <LoginIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Login" />
-                    </ListItem>
-                    <ListItem button>
-                        <ListItemIcon>
-                            <CreateIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Sign Up" />
-                    </ListItem>
-                </List>
-            } */}
 
         </Box>
     )
@@ -114,7 +106,7 @@ const NavBar = () => {
                         </Box>
                         <Box>
 
-                            {/* {!identity.user && !identity.provisionalUser && ( */}
+                            {!user && (
                             <>
                                 <Button color="inherit">
                                     <Link href="/signup"><a>Sign Up</a></Link>
@@ -123,19 +115,13 @@ const NavBar = () => {
                                     <Link href="/login"><a>Login</a></Link>
                                 </Button>
                             </>
-                            {/* )} */}
-
-                            {/* {identity.provisionalUser && (
-                                <Button color="inherit">
-                                    <NavLink style={{ textDecoration: 'none', color: 'inherit' }} to="/login">Login</NavLink>
-                                </Button>
-                            )} */}
-                            {/* 
-                            {identity.user && (
-                                <Button color='inherit'>
+                            )}
+                            
+                            {user && (
+                                <Button color='inherit' onClick={handleSignOut}>
                                     Logout
                                 </Button>
-                            )} */}
+                            )}
 
                         </Box>
                     </Toolbar>
