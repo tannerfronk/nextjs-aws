@@ -62,7 +62,7 @@ const NavBar = (props) => {
                     </ListItemIcon>
                     <ListItemText primary="Favorites" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={handleSignOut}>
                     <ListItemIcon>
                         <LogoutIcon />
                     </ListItemIcon>

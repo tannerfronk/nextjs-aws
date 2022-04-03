@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const md5 = require('md5')
+import md5 from 'md5'
 
 export default async function handler(req, res) {
 
