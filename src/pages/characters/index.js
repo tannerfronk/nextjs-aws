@@ -2,22 +2,25 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import CharacterCard from '../../components/characters/CharacterCard'
 import { CircularProgress } from '@mui/material';
+import useSWR from 'swr';
 // import { getMarvelCharacters } from '../../../utils/marvel'
 
 const CharactersPage = () => {
     // const { characters } = props
     let [characters, setCharacters] = React.useState([])
 
-
-    React.useEffect(() => {
-        const res = fetch(`/api/characters`)
+    const fetcher = async () => {
+        fetch(`/api/characters`)
             .then(res => res.json())
             .then(data => {
                 setCharacters(data.characters.data.results)
                 console.log(data)
             })
-    }, [])
+    }
 
+    const {error} = useSWR('/api/characters', fetcher)
+
+    if (error) return <div>Failed to load list of movies.</div>
 
     return (
         <Box
