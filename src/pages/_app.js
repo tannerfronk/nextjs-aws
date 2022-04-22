@@ -1,12 +1,16 @@
 import '../styles/globals.css'
 import React from 'react'
 import Layout from '../components/layout/Layout'
-import { Amplify } from "aws-amplify"
+import { Amplify, AuthModeStrategyType } from "aws-amplify"
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
-import awsmobile from '../aws-exports'
-Amplify.configure(awsmobile) 
+import config from '../aws-exports'
+Amplify.configure({
+  ...config,
+  DataStore: {
+    authModeStrategyType: AuthModeStrategyType.MULTI_AUTH
+  }
+}) 
 
 function MyApp({ Component, pageProps }) {
 

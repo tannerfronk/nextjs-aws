@@ -1,8 +1,4 @@
-input AMPLIFY {
-  globalAuthRule: AuthRule = {allow: public}
-}
-
-type MarvelCharacters @model @auth(rules: [{allow: public}]) {
+type MarvelCharacters @model @auth(rules: [{allow: public}, {allow: private}, {allow: owner}]) {
   id: ID!
   comics: AWSJSON
   description: String
@@ -15,4 +11,4 @@ type MarvelCharacters @model @auth(rules: [{allow: public}]) {
   stories: AWSJSON
   thumbnail: AWSJSON
   urls: AWSJSON
-}
+} 
