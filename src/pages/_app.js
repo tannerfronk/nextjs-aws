@@ -18,8 +18,7 @@ function MyApp({ Component, pageProps }) {
     <Authenticator variation='modal'>
       {({ signOut, user }) => (
             <Layout user={user} signOut={signOut}>
-              {/* <h1>Hello {user.username}</h1> */}
-              <Component {...pageProps} />  
+              <Component {...pageProps} user={user} />  
             </Layout>
       )}
       {/* <Layout>

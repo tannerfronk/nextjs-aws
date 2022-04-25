@@ -2,7 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Home(props) {
+
+  const { user } = props
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,8 +16,9 @@ export default function Home() {
 
       <main style={{marginTop: "2rem"}}>
         <h1 style={{display: "flex", justifyContent: "center"}}>
-          Welcome to my Marvel app!
+          Hello {user.attributes.given_name}!
         </h1>
+        <h2 style={{display: "flex", justifyContent: "center"}}>Welcome to my NextJS app</h2>
       </main>
     </div>
   )

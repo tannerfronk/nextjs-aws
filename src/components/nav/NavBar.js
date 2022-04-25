@@ -29,8 +29,6 @@ const NavBar = (props) => {
     const router = useRouter()
     const {user, signOut} = props
 
-    console.log(user)
-
     const handleNavChoice = (choice, shouldToggle) => {
         router.push(`/${choice}`)
         if (shouldToggle) toggleDrawer()
@@ -49,12 +47,6 @@ const NavBar = (props) => {
                         <EmojiPeopleIcon />
                     </ListItemIcon>
                     <ListItemText primary="Characters" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <MenuBookIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Comics" />
                 </ListItem>
                 <ListItem button onClick={() => handleNavChoice('favorites', true)}>
                     <ListItemIcon>

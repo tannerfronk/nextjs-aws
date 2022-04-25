@@ -1,4 +1,4 @@
-type MarvelCharacters @model @auth(rules: [{allow: public}, {allow: private}, {allow: owner}]) {
+type MarvelCharacters @model @auth(rules: [{allow: public, operations: [read]}, {allow: private, operations: [read]}, {allow: owner}]) {
   id: ID!
   comics: AWSJSON
   description: String
@@ -11,4 +11,5 @@ type MarvelCharacters @model @auth(rules: [{allow: public}, {allow: private}, {a
   stories: AWSJSON
   thumbnail: AWSJSON
   urls: AWSJSON
-} 
+}
+ 

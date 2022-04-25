@@ -3,11 +3,10 @@ import Box from '@mui/material/Box'
 import CharacterCard from '../../components/characters/CharacterCard'
 import { CircularProgress } from '@mui/material';
 import useSWR from 'swr';
-// import { getMarvelCharacters } from '../../../utils/marvel'
 
-const CharactersPage = () => {
-    // const { characters } = props
+const CharactersPage = (props) => {
     let [characters, setCharacters] = React.useState([])
+    const {user} = props
 
     const fetcher = async () => {
         fetch(`/api/characters`)
@@ -49,18 +48,5 @@ const CharactersPage = () => {
         </Box>
     )
 }
-
-// export async function getServerSideProps(){
-//     const dev = process.env.NODE_ENV !== 'production';
-//     const env = dev ? 'http://localhost:3000' : 'https://main.d2gdmispgwqige.amplifyapp.com';
-//     const res = fetch(`${env}/api/characters`)
-//         .then(res => res.json())
-//     const data = await res
-//     return {
-//         props: {
-//             characters: data.characters.data.results
-//         }
-//     }
-// }
 
 export default CharactersPage

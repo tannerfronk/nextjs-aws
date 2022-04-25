@@ -5,19 +5,32 @@ import { MarvelCharacters } from '../../models'
 import CharacterCard from '../../components/characters/CharacterCard'
 import useSWR from 'swr'
 
-const Favorites = () => {
+const Favorites = (props) => {
     
     const [favoriteCharacters, setFavoriteCharacters] = React.useState([])
+    const {user} = props
+    let [userFavorites, setuserFavorites] = React.useState([])
 
     const fetcher = async () => {
         try {
-            let tempList = await DataStore.query(MarvelCharacters)
-            setFavoriteCharacters(tempList)
+            let tempCharArr = await DataStore.query(MarvelCharacters)
+            let tempUserFavs = []
+
+            favoriteCharacters.forEach(char => {
+                if(user.username === char.owner){
+                    tempUserFavs.push(char.charID)
+                }
+            })
+
+            setuserFavorites(tempUserFavs)
+            setFavoriteCharacters(tempCharArr)
         } catch (e) {
             console.log("Unable to retrieve favorites", e)
         }
         return favoriteCharacters
     }
+
+    console.log(userFavorites)
 
     const { data, error } = useSWR('/favorites', fetcher, {refreshInterval: 150})
 
@@ -38,6 +51,9 @@ const Favorites = () => {
                     <h2>No Favorites to display, go add some!</h2>
                 </Box>
             }
+            {
+
+            }
             {favoriteCharacters && favoriteCharacters.length > 0 &&
                 favoriteCharacters.map((card) => {
                     return (
@@ -46,8 +62,9 @@ const Favorites = () => {
                                 <CharacterCard
                                     key={card.charID}
                                     character={{ ...card }}
-                                    page="favorites"
+                                    page="characters"
                                     favoritesList={favoriteCharacters}
+                                    user={user}
                                     // addFavorites={setAsFavorite}
                                 />
                             }
@@ -56,6 +73,7 @@ const Favorites = () => {
                                     key={card.charID}
                                     cardInfo={{ ...card }}
                                     page="comics"
+                                    user={user}
                                     // addFavorites={setAsFavorite}
                                 />
                             }
